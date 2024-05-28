@@ -4,7 +4,15 @@ This guide[^1] provides step-by-step instructions for getting started with the `
 
 For a complete tutorial in using `tidycensus` and using US Census data, see [Analyzing US Census Data: Methods, Maps, and Models in R](https://walker-data.com/census-r/index.html), by Kyle E. Walker. 
 
-## Introduction to `tidycensus` Package
+## Table of Contents
+
+1. [Introduction to tidycensus](#introduction-to-tidycensus)
+2. [Your Census API key](#your-census-api-key)
+3. [Get Census data](#get-census-data)
+  a. [get_decennial()](#get-decennial)
+  b. [get_acs()](#get-acs)
+
+## Introduction to `tidycensus`
 
 [`tidycensus`](https://walker-data.com/tidycensus/) is an R package designed to help R users get Census data pre-prepared to use with tidyverse. `tidycensus` is an R package that allows users to interface with a select number of US Census Bureau’s data APIs and return tidyverse-ready data frames, optionally with simple feature geometry included.
 
@@ -22,7 +30,7 @@ After the first time installing the package, any future scripts that reference t
 library(tidycensus)
 ```
 
-## Getting Census API Key
+## Your Census API key
 
 To access ACS data programmatically, you will need to obtain an API key from the Census Bureau. This key allows you to make requests to the Census API and retrieve data directly into your R environment. To gain access to your own API key, access the website [here](https://api.census.gov/data/key_signup.html). This site will require an organization name (or personal name of individual) and an email address. Activate the key from the email you receive from the Census Bureau so it works correctly.
 
@@ -59,7 +67,7 @@ census_api <- Sys.getenv("CENSUS_API_KEY")
 census_api_key(census_api, install = TRUE)
 ```
 
-## Practice accessing Census Data
+## Get Census data
 
 After your API key is installed, you can obtain decennial Census or ACS data with a single function. Let’s start with get_decennial(), which is used to access decennial Census data from the 2000, 2010, and 2020 decennial US Censuses.
 
@@ -104,7 +112,7 @@ View the output table, and validate against the same table on [data.census.gov](
 
 ### get_acs()
 
-More frequently, we use data from the American Community Survey (ACS) in our work. In your R console, run `?get_acs()` to see the definitions of the arguments used in this function, you will see they are similar to the ones above.
+More frequently, we use data from the American Community Survey (ACS) in our work. In your R console, run `?get_acs()` to see the definitions of the arguments used in this function (they are similar to the ones above).
 
 Run the below example, where we request ACS data on the percent of the population that is under 18 years by census tract for the City of Charlottesville from the most recent ACS 5-year survey (2018-2022).
 
