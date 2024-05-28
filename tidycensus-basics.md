@@ -9,8 +9,8 @@ For a complete tutorial in using `tidycensus` and using US Census data, see [Ana
 1. [Introduction to tidycensus](#introduction-to-tidycensus)
 2. [Your Census API key](#your-census-api-key)
 3. [Get Census data](#get-census-data)
-  a. [get_decennial()](#get-decennial)
-  b. [get_acs()](#get-acs)
+   - [get_decennial()](#get-decennial)
+   - [get_acs()](#get-acs)
 
 ## Introduction to `tidycensus`
 
