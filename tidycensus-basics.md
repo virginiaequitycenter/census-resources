@@ -11,6 +11,7 @@ For a complete tutorial in using `tidycensus` and using US Census data, see [Ana
 3. [Get Census data](#get-census-data)
    - [get_decennial()](#get_decennial)
    - [get_acs()](#get_acs)
+4. [Searching for variables](#searching-for-variables)
 
 ## Introduction to `tidycensus`
 
@@ -79,7 +80,7 @@ In your R console, run `?get_decennial()` to see the definitions of the argument
 This is the requested Census geography level for the data. We most frequently use `"state"`, `"county"`, `"tract"`, and `"block group"`.
 
 **variables**
-This is where the table code, or list of table codes go.
+This is where the variable ID, or list of variable IDs go. This will return both the estimate and margin of error for the given variables.
 
 **year**
 The year you are requesting data. The default is set to the most current year data is available. This is 2020 for the decennial Census.
@@ -151,5 +152,40 @@ under_18_wide <- get_acs(
 View(under_18_wide)
 ```
 
+## Searching for variables
+
+To find the variable ID(s) for the `variables` argument in get_decennial() and get_acs(), use the function `load_variables()`. Run `?load_variables()` in your console to read more usage of this function. Use the arguments for `year` and `dataset`, and include `cache = TRUE` to store for future access.
+
+Let's practice by obtaining datasets of variables from the 5-year ACS (2018-2022):
+
+```
+# Variables from 5-year ACS Detailed Tables
+acs_var <- load_variables(2022, "acs5", cache = TRUE)
+
+# View acs_var
+View(acs_var)
+
+# Variables from 5-year ACS Subject Tables
+acs_var_subject <- load_variables(2022, "acs5/subject", cache = TRUE)
+
+# View acs_var_subject
+View(acs_var_subject)
+
+# Variables from 5-year ACS Data Profile
+acs_var_profile <- load_variables(2022, "acs5/profile", cache = TRUE)
+
+# View acs_var_profile
+View(acs_var_profile)
+```
+
+One of the easier ways to identify a specific variable ID from the above data tables, is by exploring [Table Codes](https://censusreporter.org/topics/table-codes/) using Census Reporter and searching the data table in RStudio.
+
+For example, if we want to find the variable ID for the number of foreign-born residents in a geography, first we can use Census Reporter to identify the table with that variable. In this case, it is [Table B05002: Place of Birth by Nativity and Citizenship Status](https://censusreporter.org/tables/B05002/).
+
+Now we can search our data table of variables (`acs_var`) to filter for table `B05002`. Open `acs_var` in the view window in RStudio, and in the search bar in the upper right, type in `B05002`.
+
+Scroll until you see the row and label you're looking for. In this case it is: `Estimate!!Total:!!Foreign born:`.
+
+The `name` column gives you the specific variable ID to use in your `get_acs()` function. For this example, it is `B05002_013`.
 
 [^1]: This guide was authored by Elizabeth Mitchell, with content adapted from the documentation [Pulling and Organizing Census ACS Data](https://virginiaequitycenter.github.io/cdf-united-way-2023-24/Documentation/combined-county-documentation.html) by Ethan Assefa & Sanny Yang.
