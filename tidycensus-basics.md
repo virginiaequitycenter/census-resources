@@ -188,25 +188,24 @@ Scroll until you see the row and label you're looking for. In this case it is: `
 
 The `name` column gives you the specific variable ID to use in your `get_acs()` function. For this example, it is `B05002_013`.
 
+**NOTE:** The function[^2] below can be use to load all variable IDs for the 5-year ACS tables that we use most often. This includes the detail tables, subject tables, and data profiles:
+
 ```
 # A custom R function that creates a table of all variable codes and metadata
-all_acs_meta <- function(year){
-  
+all_acs_meta <- function(){
   # Gets the list of all variables from all acs5 metadata tables
-  vars1 <- load_variables(year, "acs5") %>% select(-geography) # Remove the geography column
-  vars2 <- load_variables(year, "acs5/profile")
-  vars3 <- load_variables(year, "acs5/subject")
-  vars4 <- load_variables(year, "acs5/cprofile")
-
+  vars1 <- load_variables(acs_year, "acs5", cache = TRUE) %>% select(-geography)
+  vars2 <- load_variables(acs_year, "acs5/subject", cache = TRUE)
+  vars3 <- load_variables(acs_year, "acs5/profile", cache = TRUE)
+  
   # Provides column with specific lookup
   vars1$dataset_table <- "acs5"
-  vars2$dataset_table  <- "acs5/profile"
-  vars3$dataset_table  <- "acs5/subject"
-  vars4$dataset_table  <- "acs5/cprofile"
-
+  vars2$dataset_table <- "acs5/subject"
+  vars3$dataset_table <- "acs5/profile"
+  
   # Combine all table rows
-  all_vars_meta <- rbind(vars1, vars2, vars3, vars4)
-
+  all_vars_meta <- rbind(vars1, vars2, vars3)
+  
   return(all_vars_meta)
 }
 
@@ -218,3 +217,4 @@ View(meta_table)
 ```
 
 [^1]: This guide was authored by Elizabeth Mitchell, with content adapted from the documentation [Pulling and Organizing Census ACS Data](https://virginiaequitycenter.github.io/cdf-united-way-2023-24/Documentation/combined-county-documentation.html) by Ethan Assefa & Sanny Yang.
+[^2]: This function was written by Ethan Assefa.
