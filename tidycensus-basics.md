@@ -188,4 +188,33 @@ Scroll until you see the row and label you're looking for. In this case it is: `
 
 The `name` column gives you the specific variable ID to use in your `get_acs()` function. For this example, it is `B05002_013`.
 
+```
+# A custom R function that creates a table of all variable codes and metadata
+all_acs_meta <- function(year){
+  
+  # Gets the list of all variables from all acs5 metadata tables
+  vars1 <- load_variables(year, "acs5") %>% select(-geography) # Remove the geography column
+  vars2 <- load_variables(year, "acs5/profile")
+  vars3 <- load_variables(year, "acs5/subject")
+  vars4 <- load_variables(year, "acs5/cprofile")
+
+  # Provides column with specific lookup
+  vars1$dataset_table <- "acs5"
+  vars2$dataset_table  <- "acs5/profile"
+  vars3$dataset_table  <- "acs5/subject"
+  vars4$dataset_table  <- "acs5/cprofile"
+
+  # Combine all table rows
+  all_vars_meta <- rbind(vars1, vars2, vars3, vars4)
+
+  return(all_vars_meta)
+}
+
+# Creates a table of all the metadata called "meta_table"
+meta_table <- all_acs_meta(year = 2021)
+
+# Opens the newly made table
+View(meta_table)
+```
+
 [^1]: This guide was authored by Elizabeth Mitchell, with content adapted from the documentation [Pulling and Organizing Census ACS Data](https://virginiaequitycenter.github.io/cdf-united-way-2023-24/Documentation/combined-county-documentation.html) by Ethan Assefa & Sanny Yang.
